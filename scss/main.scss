@@ -1,0 +1,24 @@
+body {
+  margin: 0;
+}
+
+#game-grid {
+    background-color: lightblue;
+  width: 80%;
+  height: 500px;
+  display:grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: 4fr 1fr;
+
+  @for $i from 1 through 14 {
+    .column-#{$i} {
+      border: 1px solid black;
+    }
+  }
+}
+
+#player {
+  width:100px;
+  height: 100px;
+  background-color: red;
+}

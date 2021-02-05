@@ -1,0 +1,62 @@
+body {
+  margin: 0;
+}
+
+#game-grid {
+  background-color: lightblue;
+  width: 80%;
+  height: 500px;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: 4fr 1fr;
+}
+#game-grid .column-1 {
+  border: 1px solid black;
+}
+#game-grid .column-2 {
+  border: 1px solid black;
+}
+#game-grid .column-3 {
+  border: 1px solid black;
+}
+#game-grid .column-4 {
+  border: 1px solid black;
+}
+#game-grid .column-5 {
+  border: 1px solid black;
+}
+#game-grid .column-6 {
+  border: 1px solid black;
+}
+#game-grid .column-7 {
+  border: 1px solid black;
+}
+#game-grid .column-8 {
+  border: 1px solid black;
+}
+#game-grid .column-9 {
+  border: 1px solid black;
+}
+#game-grid .column-10 {
+  border: 1px solid black;
+}
+#game-grid .column-11 {
+  border: 1px solid black;
+}
+#game-grid .column-12 {
+  border: 1px solid black;
+}
+#game-grid .column-13 {
+  border: 1px solid black;
+}
+#game-grid .column-14 {
+  border: 1px solid black;
+}
+
+#player {
+  width: 100px;
+  height: 100px;
+  background-color: red;
+}
+
+/*# sourceMappingURL=output.css.map */
