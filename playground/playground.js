@@ -137,17 +137,28 @@ musicBlockArray = songMap.map((line,i) => {
 })
 
 const generateMusicBlock = (interval) => {
-    musicBlockArray.forEach((block, index) => {
+
+
+    for (let i = 0; i <musicBlockArray.length; i++) {
         setTimeout(() => {
 
-        block.forEach((element) => {
-
-            element.draw()
-            element.y += element.dy
-        })
-
-        },index*interval)
-    })
+            for (let j = 0; j < musicBlockArray[i].length ; j++) {
+                musicBlockArray[i][j].draw()
+                musicBlockArray[i][j].y += musicBlockArray[i][j].dy
+            }
+        },i*interval)
+    }
+    // musicBlockArray.forEach((block, index) => {
+    //     setTimeout(() => {
+    //
+    //     block.forEach((element) => {
+    //
+    //         element.draw()
+    //         element.y += element.dy
+    //     })
+    //
+    //     },index*interval)
+    // })
 }
 
 const update = () => {
@@ -170,11 +181,16 @@ let controlKeyArray = ['a','s','d', ' ' , 'j', 'k','l']
 
 addEventListener('keydown',(e) => {
 
-    controlKeyArray.forEach((key, index) => {
-        if(e.key == key) {
-            playerHitBoxArray[index].draw()
+    for (let i = 0 ; i < controlKeyArray.length; i++) {
+        if(e.key == controlKeyArray[i]) {
+            playerHitBoxArray[i].draw()
         }
-    })
+    }
+    // controlKeyArray.forEach((key, index) => {
+    //     if(e.key == key) {
+    //         playerHitBoxArray[index].draw()
+    //     }
+    // })
 })
 
 addEventListener('keyup',(e) => {
