@@ -1,4 +1,6 @@
 
+import PlayerHitBox from '../js/PlayerHitBox.js'
+
 const canvas = document.querySelector('canvas')
 
 canvas.width = innerWidth
@@ -54,29 +56,52 @@ class Player {
     }
 }
 
-class PlayerHitBox {
-    constructor(x,y,width,height) {
-        this.x = x;
-        this.y = y;
-        this.color = "green"
-        this.width = width
-        this.height = height
+let lastRender
 
-    }
+const isCollided = (musicBlockArray, playerHitBoxArray) => {
 
-    draw() {
-        ctx.beginPath()
-        ctx.fillStyle = this.color
-        // ctx.arc(this.x, this.y, 30, 0, Math.PI * 2, false)
-        ctx.fillRect(this.x,this.y,this.width,this.height)
-        ctx.fill()
-    }
+    // Collide Check 1
+    musicBlockArray.forEach((musicBlock) => {
 
-    remove() {
-        ctx.clearRect(this.x,this.y, this.width, this.height)
-    }
+        playerHitBoxArray.forEach((playerHitBox) => {
+
+             musicBlock.forEach((element) => {
+                 if(element.y > playerHitBox.y - playerHitBox.height
+                     && element.x === playerHitBox.x
+                     && element.y < playerHitBox.y)
+                     // && musicBlock[0].x < playerHitBoxArray[0].x + playerHitBoxArray[0].width)
+                 {
+                     console.log(`${element} is collided with ${playerHitBox}`)
+                 }
+             })
+
+        })
+        // if(musicBlock[0].y > playerHitBoxArray[0].y - playerHitBoxArray[0].height
+        //     && musicBlock[0].x === playerHitBoxArray[0].x
+        //     && musicBlock[0].y < playerHitBoxArray[0].y)
+        //     // && musicBlock[0].x < playerHitBoxArray[0].x + playerHitBoxArray[0].width)
+        // {
+        //     console.log('is collided')
+        // }
+        //
+        // if(musicBlock[0].y > playerHitBoxArray[1].y - playerHitBoxArray[1].height
+        //     && musicBlock[0].x === playerHitBoxArray[1].x
+        //     && musicBlock[0].y < playerHitBoxArray[1].y)
+        //     // && musicBlock[0].x < playerHitBoxArray[1].x + playerHitBoxArray[1].width)
+        // {
+        //     console.log('is collided 2')
+        // }
+        //
+        // if(musicBlock[0].y > playerHitBoxArray[2].y - playerHitBoxArray[2].height
+        //     && musicBlock[0].x === playerHitBoxArray[2].x
+        //     && musicBlock[0].y < playerHitBoxArray[2].y)
+        //     // && musicBlock[0].x < playerHitBoxArray[1].x + playerHitBoxArray[1].width)
+        // {
+        //     console.log('is collided 3')
+        // }
+    })
+
 }
-
 class MusicBlock {
     constructor(x,y,width,height) {
         this.x = x;
@@ -84,11 +109,11 @@ class MusicBlock {
         this.width = width;
         this.height = height;
         this.color = 'red'
+
+        this.speed = 3;
+
         this.dy = 3;
 
-        // setTimeout(()=> {
-        //
-        // },3000)
     }
 
     draw() {
@@ -100,80 +125,61 @@ class MusicBlock {
     }
 }
 
-let playerHitBoxArray = []
+
+const createKeys = (numOfKeys, startingX, startingY, width,height) =>
+    Array(numOfKeys).fill(0).map((element, index) =>
+        new PlayerHitBox(startingX + width * index, startingY, width, height))
 
 
-
-const createKeys = (numOfKeys, startingX, startingY, width,height) => {
-    for(let i = 0; i < numOfKeys; i++) {
-        playerHitBoxArray.push(new PlayerHitBox(startingX, startingY, width, height))
-
-        startingX += width
-    }
-}
-
-
-createKeys(7,200,500,keyWidth,keyHeight)
+let playerHitBoxArray = createKeys(7,200,500,keyWidth,keyHeight)
 
 const songMap = [
     [1],
+    // [],
+    // [],
+    // [],
     [2],
     [3],
-    [3],
-    [1,3],
-    [2,4],
-    [1,3,5]
+    [7],
+    // [1,3,5],
+    [2,4]
+
 ]
 
-musicBlockArray = songMap.map((line,i) => {
-
+let musicBlockArray = songMap.map((line,i) => {
     let resultArray = []
 
-    line.forEach((position) => {
-        resultArray.push(new MusicBlock((position + 1 )*keyWidth, 0,keyWidth, keyHeight))
-    })
+    if(line.length > 0) {
+        line.forEach((position) => {
+            resultArray.push(new MusicBlock((position + 1) * keyWidth, 0, keyWidth, keyHeight))
+        })
+    } else {
+        resultArray.push()
+    }
 
     return resultArray
 })
 
 const generateMusicBlock = (interval) => {
-
-
-    for (let i = 0; i <musicBlockArray.length; i++) {
+    for (let i = 0; i < musicBlockArray.length; i++) {
         setTimeout(() => {
-
-            for (let j = 0; j < musicBlockArray[i].length ; j++) {
-                musicBlockArray[i][j].draw()
-                musicBlockArray[i][j].y += musicBlockArray[i][j].dy
+            if(musicBlockArray[i].length > 0) {
+                for (let j = 0; j < musicBlockArray[i].length ; j++) {
+                    musicBlockArray[i][j].draw()
+                    musicBlockArray[i][j].y += musicBlockArray[i][j].dy
+                }
             }
         },i*interval)
     }
-    // musicBlockArray.forEach((block, index) => {
-    //     setTimeout(() => {
-    //
-    //     block.forEach((element) => {
-    //
-    //         element.draw()
-    //         element.y += element.dy
-    //     })
-    //
-    //     },index*interval)
-    // })
+
 }
 
 const update = () => {
 
+    lastRender = Date.now()
+    generateMusicBlock(1000)
 
-    generateMusicBlock(500)
-
-    addEventListener('keydown', (e) => {
-        if(e.key == 'g') {
-
-            musicBlockArray[1].draw()
-
-        }
-    })
-
+    isCollided(musicBlockArray,playerHitBoxArray)
     requestAnimationFrame(update)
 }
 
@@ -186,11 +192,6 @@ addEventListener('keydown',(e) => {
             playerHitBoxArray[i].draw()
         }
     }
-    // controlKeyArray.forEach((key, index) => {
-    //     if(e.key == key) {
-    //         playerHitBoxArray[index].draw()
-    //     }
-    // })
 })
 
 addEventListener('keyup',(e) => {
@@ -202,3 +203,5 @@ addEventListener('keyup',(e) => {
 })
 
 update()
+
+console.log(Date.now())
