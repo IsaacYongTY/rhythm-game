@@ -1,138 +1,168 @@
+import PlayerHitBox from './PlayerHitBox.js'
+import MusicBlock from './MusicBlock.js'
+import songMap from './songMap.js'
+import gameAudio from './gameAudio.js'
 
-class Player {
-    constructor() {
-        this.speedX = 1
-        this.speedY = 1
+const canvas = document.querySelector('canvas')
 
-        this.playerInitialPosition = 4
-        this.playerPosition = this.playerInitialPosition
+canvas.width = innerWidth
+canvas.height = innerHeight
 
-        let playerDOMHolder = document.createElement('div')
-        playerDOMHolder.setAttribute('id','player')
-        this.DOM = playerDOMHolder
+const keyWidth = 100
+const keyHeight = 50
 
-    }
+const ctx = canvas.getContext('2d')
 
-    moveLeft = function(e) {
+let scoreHolder = document.querySelector('#score')
+let streaksHolder = document.querySelector('#streaks')
+let score = 0
+let streaks = 0
 
-        if(e.key === 'ArrowLeft') {
-
-            if(this.playerPosition !== 1) {
-                this.DOM.remove()
-                this.playerPosition--
-                document.querySelector(`.player-${this.playerPosition}`).appendChild(this.DOM)
-                moveSoundEffect.currentTime = 0
-                moveSoundEffect.play()
-
-
-            }   else {
-                console.log("You've hit the left wall")
-            }
-
-        }
-    }
-
-    moveRight = function(e) {
-        if(this.playerPosition !== 7) {
-            console.log('You move to right')
-            moveSoundEffect.currentTime = 0
-            moveSoundEffect.play()
-            this.DOM.remove()
-            this.playerPosition++
-            document.querySelector(`.player-${this.playerPosition}`).appendChild(this.DOM)
-        }   else {
-            console.log("You've hit the right wall")
-        }
-    }
+class Game {
 
 }
+let lastRender
 
-class MusicBlock {
-    constructor() {
-        let div = document.createElement('div')
-        div.setAttribute('class', 'music-block drop')
-        this.DOM = div
 
-        setTimeout(() => {
-            this.DOM.remove()
-        }, 3000)
-    }
+scoreHolder.textContent = `Score: ${score}`
+streaksHolder.textContent = `Streaks: ${streaks}`
+
+const isCollided = (musicBlockArray, playerHitBoxArray) => {
+    musicBlockArray.forEach((musicBlock) => {
+        playerHitBoxArray.forEach((playerHitBox,i) => {
+            musicBlock.forEach((element,j) => {
+                if(element.y > playerHitBox.y - playerHitBox.height
+                    && element.x === playerHitBox.x
+                    && playerHitBox.isActive
+                    && !element.isHit)
+                {
+                    element.remove()
+
+
+                    score += 10
+
+                    streaks += 1
+
+                    scoreHolder.textContent = `Score: ${score}`
+                    streaksHolder.textContent = `Streaks: ${streaks}`
+
+                    element.isHit = true
+                }
+
+            })
+        })
+    })
 }
 
-window.addEventListener('keydown', (e) => {
-    keyHandler(e)
+const isMissed = (musicBlockArray, playerHitBoxArray) => {
+    musicBlockArray.forEach((musicBlock) => {
+        playerHitBoxArray.forEach((playerHitBox) => {
+            musicBlock.forEach((element) => {
+
+                if (element.y > playerHitBox.y + playerHitBox.height
+                    && element.x === playerHitBox.x
+                    && !element.isHit
+                    && !element.isMissed)
+                {
+                    element.isMissed = true
+                    element.color = 'purple'
+                    streaks = 0
+                    streaksHolder.textContent = `Streaks: ${streaks}`
+                }
+
+            })
+        })
+    })
+}
+
+
+
+const createKeys = (numOfKeys, startingX, startingY, width,height) =>
+    Array(numOfKeys).fill(0).map((element, index) =>
+        new PlayerHitBox(startingX + width * index, startingY, width, height))
+
+let playerHitBoxArray = createKeys(7,200,500,keyWidth,keyHeight)
+
+let musicBlockArray = songMap.map((line,i) => {
+    let resultArray = []
+
+    if(line.length > 0) {
+        line.forEach((position) => {
+            resultArray.push(new MusicBlock((position + 1) * keyWidth, 0, keyWidth, keyHeight))
+        })
+    } else {
+        resultArray.push()
+    }
+
+    return resultArray
 })
 
-const keyHandler = (e) => {
-
-
-    if(e.key === 'ArrowLeft') {
-        player.moveLeft(e)
-    }
-
-    if(e.key === 'ArrowRight') {
-        player.moveRight(e)
-    }
-
-    if(e.key === 'p') {
-        song.play()
-    }
-
-    if(e.key === '[') {
-        song.pause()
-    }
-
-    if(e.key === 'm') {
-        let musicBlock = new MusicBlock()
-        document.querySelector('.column-3').appendChild(musicBlock.DOM)
-
-        console.log(player.width)
-    }
-}
-const isCollide = (rect1, rect2) => {
-
-}
-class BlockGenerator {
-    constructor() {
-
-    }
-
-    generateBlock = function () {
-        let musicBlock = new MusicBlock()
-
-        setInterval(() => {
-            let randomNum = Math.floor(Math.random() * 7 + 1)
-            document.querySelector(`.column-${randomNum}`).appendChild(new MusicBlock().DOM)
-        },1000)
+const generateMusicBlock = (interval) => {
+    for (let i = 0; i < musicBlockArray.length; i++) {
+        setTimeout(() => {
+            if(musicBlockArray[i].length > 0) {
+                for (let j = 0; j < musicBlockArray[i].length ; j++) {
+                    if(!musicBlockArray[i][j].isHit) {
+                        musicBlockArray[i][j].draw()
+                        musicBlockArray[i][j].y += musicBlockArray[i][j].dy
+                    }
+                }
+            }
+        },i * interval)
     }
 }
 
 
-let playerInitialPosition = 4
-const song = new Audio('./assets/audio/Never Gonna Give You Up - Rick Astley.mp3')
-const moveSoundEffect = new Audio('./assets/audio/mixkit-arcade-retro-changing-tab-206.wav')
 
-let player = new Player()
+let controlKeyArray = ['a','s','d', ' ' , 'j', 'k','l']
 
-const init = () => {
+let song1 = new Audio(gameAudio.song1)
 
-    document.querySelector(`.player-${playerInitialPosition}`).appendChild(player.DOM)
-    console.log(player.DOM.getBoundingClientRect())
-    let blockGenerator = new BlockGenerator()
-    blockGenerator.generateBlock()
+addEventListener('keypress',(e) => {
+    e.preventDefault()
+    for (let i = 0 ; i < controlKeyArray.length; i++) {
+        if(e.key == controlKeyArray[i]) {
 
+            playerHitBoxArray[i].color = 'blue'
+            playerHitBoxArray[i].isActive = true
+            isCollided(musicBlockArray,playerHitBoxArray)
+        }
+    }
+
+    if(e.key == '6') {
+
+
+        song1.play()
+    }
+
+    if(e.key == '7') {
+        song1.pause()
+    }
+})
+
+addEventListener('keyup',(e) => {
+    controlKeyArray.forEach((key, index) => {
+        if(e.key == key) {
+            playerHitBoxArray[index].color = 'green'
+            playerHitBoxArray[index].isActive = false
+        }
+    })
+})
+
+const render = () => {
+
+    lastRender = Date.now()
+    generateMusicBlock(1000)
+    isMissed(musicBlockArray,playerHitBoxArray)
+    requestAnimationFrame(render)
+
+    for (let i = 0 ; i < controlKeyArray.length; i++) {
+        playerHitBoxArray[i].draw()
+    }
 }
 
 
 
+render()
 
-
-init()
-
-
-
-
-setInterval(()=> {
-    console.log('ass')
-},1000)
-
+console.log(Date.now())
