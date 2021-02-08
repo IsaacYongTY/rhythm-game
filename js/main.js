@@ -2,7 +2,7 @@ import PlayerHitBox from './PlayerHitBox.js'
 import MusicBlock from './MusicBlock.js'
 import songMap from './songMap.js'
 import gameAudio from './gameAudio.js'
-
+import Selector from './Selector.js'
 const canvas = document.querySelector('canvas')
 
 canvas.width = innerWidth
@@ -11,47 +11,29 @@ canvas.height = innerHeight
 const keyWidth = 100
 const keyHeight = 50
 
-const ctx = canvas.getContext('2d')
-
 let scoreHolder = document.querySelector('#score')
 let streaksHolder = document.querySelector('#streaks')
-let score = 0
-let streaks = 0
+
 
 class Game {
+    constructor(song) {
+        this.score = 0
+        this.streaks = 0
 
-}
-let lastRender
+        this.song = song
+    }
 
-
-scoreHolder.textContent = `Score: ${score}`
-streaksHolder.textContent = `Streaks: ${streaks}`
-
-const isCollided = (musicBlockArray, playerHitBoxArray) => {
-    musicBlockArray.forEach((musicBlock) => {
-        playerHitBoxArray.forEach((playerHitBox,i) => {
-            musicBlock.forEach((element,j) => {
-                if(element.y > playerHitBox.y - playerHitBox.height
-                    && element.x === playerHitBox.x
-                    && playerHitBox.isActive
-                    && !element.isHit)
-                {
-                    element.remove()
-
-
-                    score += 10
-
-                    streaks += 1
-
-                    scoreHolder.textContent = `Score: ${score}`
-                    streaksHolder.textContent = `Streaks: ${streaks}`
-
-                    element.isHit = true
-                }
-
-            })
+    render() {
+        generateMusicBlock(1000)
+        isMissed(musicBlockArray,playerHitBoxArray)
+        requestAnimationFrame(() => {
+            this.render()
         })
-    })
+
+        for (let i = 0 ; i < controlKeyArray.length; i++) {
+            playerHitBoxArray[i].draw()
+        }
+    }
 }
 
 const isMissed = (musicBlockArray, playerHitBoxArray) => {
@@ -66,8 +48,8 @@ const isMissed = (musicBlockArray, playerHitBoxArray) => {
                 {
                     element.isMissed = true
                     element.color = 'purple'
-                    streaks = 0
-                    streaksHolder.textContent = `Streaks: ${streaks}`
+                    game.streaks = 0
+                    streaksHolder.textContent = `Streaks: ${game.streaks}`
                 }
 
             })
@@ -75,7 +57,32 @@ const isMissed = (musicBlockArray, playerHitBoxArray) => {
     })
 }
 
+const isCollided = (musicBlockArray, playerHitBoxArray) => {
+    musicBlockArray.forEach((musicBlock) => {
+        playerHitBoxArray.forEach((playerHitBox,i) => {
+            musicBlock.forEach((element,j) => {
+                if(element.y > playerHitBox.y - playerHitBox.height
+                    && element.x === playerHitBox.x
+                    && playerHitBox.isActive
+                    && !element.isHit)
+                {
+                    element.remove()
 
+
+                    game.score += 10
+
+                    game.streaks += 1
+
+                    scoreHolder.textContent = `Score: ${game.score}`
+                    streaksHolder.textContent = `Streaks: ${game.streaks}`
+
+                    element.isHit = true
+                }
+
+            })
+        })
+    })
+}
 
 const createKeys = (numOfKeys, startingX, startingY, width,height) =>
     Array(numOfKeys).fill(0).map((element, index) =>
@@ -138,6 +145,8 @@ addEventListener('keypress',(e) => {
     if(e.key == '7') {
         song1.pause()
     }
+
+
 })
 
 addEventListener('keyup',(e) => {
@@ -149,20 +158,38 @@ addEventListener('keyup',(e) => {
     })
 })
 
-const render = () => {
 
-    lastRender = Date.now()
-    generateMusicBlock(1000)
-    isMissed(musicBlockArray,playerHitBoxArray)
-    requestAnimationFrame(render)
+// Start Screen
 
-    for (let i = 0 ; i < controlKeyArray.length; i++) {
-        playerHitBoxArray[i].draw()
+
+let selector = new Selector()
+
+addEventListener('keydown', (e) => {
+    e.preventDefault()
+    switch(e.key) {
+        case 'ArrowLeft':
+            selector.moveLeft()
+            break
+        case 'ArrowRight':
+            selector.moveRight()
+            break
+        case 'Enter':
+            selector.select()
     }
+})
+
+for(let i=0 ; i < 3; i++) {
+    document.querySelector(`#song-${i+1}`).addEventListener('click', (e) => {
+        console.log(`clicked song ${i+1}`)
+    })
 }
 
 
-
-render()
-
-console.log(Date.now())
+let game = new Game(song)
+//
+// scoreHolder.textContent = `Score: ${game.score}`
+// streaksHolder.textContent = `Streaks: ${game.streaks}`
+//
+// game.render()
+//
+// console.log(Date.now())
