@@ -25,7 +25,7 @@ export default class Selector {
 
             this.selection--
             console.log(this.selection)
-            let { previewTime, audio } = songs[this.selection]
+            let { previewTime, audio } = songs[this.selection - 1]
 
             this.song = new Audio (`${audio}#t=${previewTime},${previewTime + this.previewLength}`)
             document.querySelector(`#song-${this.selection}`).focus()

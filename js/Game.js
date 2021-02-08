@@ -13,21 +13,21 @@ export default class Game {
         this.streaks = 0
         this.song = song
         this.controlKeyArray = ['a','s','d', ' ' , 'j', 'k','l']
-        this.playerHitBoxArray = this.createKeys(7,200,500,keyWidth,keyHeight)
+        this.playerHitBoxArray = this.createKeys(7,100,650,keyWidth,keyHeight)
         this.selectedSong = new Audio(this.song.audio)
         this.blockInterval = 1 / ( this.song.bpm / 60 ) * 1000 / 4
 
         this.musicBlockArray = song.songMap.map((line,i) => {
             let resultArray = []
 
-            if(line.indexOf(0) > 0) {
+            if(line.indexOf(1) >= 0) {
                 line.forEach((position,index) => {
+
                     if(position == 1) {
-                        resultArray.push(new MusicBlock((index + 2) * keyWidth, 0, keyWidth, keyHeight))
+                        resultArray.push(new MusicBlock((index + 1) * keyWidth, 0, keyWidth, keyHeight))
                     }
                 })
             }
-
             return resultArray
         })
 

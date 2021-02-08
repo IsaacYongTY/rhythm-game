@@ -7,7 +7,7 @@ import Game from './Game.js'
 import gameAudio from './gameAudio.js'
 
 const canvas = document.querySelector('canvas')
-canvas.width = innerWidth
+canvas.width = innerWidth / 2
 canvas.height = innerHeight
 
 
@@ -28,29 +28,40 @@ let introSong = new Audio(gameAudio.introSong)
 let selector = new Selector()
 
 addEventListener('keydown', (e) => {
+
     e.preventDefault()
-    introSong.pause()
-    switch(e.key) {
-        case 'ArrowLeft':
-            selector.moveLeft()
-            break
-        case 'ArrowRight':
-            selector.moveRight()
-            break
-        case 'Enter':
 
-            if(startScreen.style.display === 'block') {
-                selector.select()
-            }
 
-            if(introScreen.style.display === 'block') {
-                introSong.play()
-                startScreen.style.display = 'block'
-                introScreen.style.display = 'none'
 
-            }
+        introSong.pause()
+        switch(e.key) {
+            case 'ArrowLeft':
+                if(startScreen.style.display === 'block') {
+                    selector.moveLeft()
+                }
+                break
+            case 'ArrowRight':
+                if(startScreen.style.display === 'block') {
+                    selector.moveRight()
+                }
+                break
+            case 'Enter':
+
+                if(startScreen.style.display === 'block') {
+                    selector.select()
+                }
+
+                if(introScreen.style.display === 'block') {
+                    introSong.play()
+                    startScreen.style.display = 'block'
+                    introScreen.style.display = 'none'
+
+                }
+
 
     }
+
+
 })
 
 
@@ -89,6 +100,8 @@ for(let i=0 ; i < 3; i++) {
         playAgainButton.addEventListener('click', (e) => {
             endScreen.style.display = 'none'
             startScreen.style.display = 'block'
+            introSong.currentTime = 0
+            introSong.play()
         })
 
         quitButton.addEventListener('click', (e) => {
