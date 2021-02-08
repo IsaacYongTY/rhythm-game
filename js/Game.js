@@ -56,8 +56,9 @@ export default class Game {
         //     return resultArray
         // })
 
-        this.selectedSong.play()
-
+        this.selectedSong.onloadeddata = () => {
+            this.selectedSong.play()
+        }
         this.selectedSong.addEventListener('ended', (e) => {
             console.log('Song ended')
             this.stop()
@@ -66,17 +67,21 @@ export default class Game {
     }
 
     render() {
-        this.generateMusicBlock(this.blockInterval)
 
 
-        this.isMissed(this.musicBlockArray,this.playerHitBoxArray)
-        requestAnimationFrame(() => {
-            this.render()
-        })
+            this.generateMusicBlock(this.blockInterval)
 
-        for (let i = 0 ; i < this.controlKeyArray.length; i++) {
-            this.playerHitBoxArray[i].draw()
-        }
+
+            this.isMissed(this.musicBlockArray,this.playerHitBoxArray)
+            requestAnimationFrame(() => {
+                this.render()
+            })
+
+            for (let i = 0 ; i < this.controlKeyArray.length; i++) {
+                this.playerHitBoxArray[i].draw()
+            }
+
+
     }
 
     stop() {
