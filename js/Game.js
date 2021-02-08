@@ -6,7 +6,7 @@ let streaksHolder = document.querySelector('#streaks')
 
 const keyWidth = 100
 const keyHeight = 30
-const subBeat = 4
+
 
 export default class Game {
     constructor(song) {
@@ -14,9 +14,11 @@ export default class Game {
         this.streaks = 0
         this.song = song
         this.controlKeyArray = ['a','s','d', ' ' , 'j', 'k','l']
-        this.playerHitBoxArray = this.createKeys(7,100,650,keyWidth,keyHeight)
+        this.playerHitBoxArray = this.createKeys(7,100,660,keyWidth,keyHeight)
         this.selectedSong = new Audio(this.song.audio)
-        this.blockInterval = 1 / ( this.song.bpm / 60 ) * 1000 / subBeat
+        this.subBeat = 2
+        this.blockInterval = (1 / ( this.song.bpm / 60 ) * 1000 / this.subBeat ).toFixed(0)
+        this.speed = 5
 
         this.musicBlockArray = song.songMap.map((line,i) => {
             let resultArray = []
@@ -25,7 +27,7 @@ export default class Game {
                 line.forEach((position,index) => {
 
                     if(position == 1) {
-                        resultArray.push(new MusicBlock((index + 1) * keyWidth, 0, keyWidth, keyHeight))
+                        resultArray.push(new MusicBlock((index + 1) * keyWidth, 0, keyWidth, keyHeight,this.speed))
                     }
                 })
             }
