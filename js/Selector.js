@@ -24,7 +24,7 @@ export default class Selector {
             this.song.pause()
 
             this.selection--
-
+            console.log(this.selection)
             let { previewTime, audio } = songs[this.selection]
 
             this.song = new Audio (`${audio}#t=${previewTime},${previewTime + this.previewLength}`)
@@ -32,7 +32,6 @@ export default class Selector {
             this.selectionSoundEffect.currentTime = 0
             this.selectionSoundEffect.play()
 
-            this.song.currentTime = songs[this.selection].previewTime
             this.song.play()
 
         }   else {
@@ -45,10 +44,9 @@ export default class Selector {
     moveRight() {
 
 
-        if(this.selection <= songs.length) {
+        if(this.selection < songs.length) {
             this.song.pause()
             this.selection++
-            console.log(this.selection)
 
             let { previewTime, audio } = songs[this.selection - 1]
 
@@ -68,5 +66,6 @@ export default class Selector {
 
     select() {
         document.querySelector(`#song-${this.selection}`).click()
+        this.song.pause()
     }
 }

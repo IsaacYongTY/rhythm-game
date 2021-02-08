@@ -10,10 +10,14 @@
 </head>
 <body>
 
+<div id="intro-screen">
+    <h2>Press Enter to Start</h2>
+</div>
+
 <div id="start-screen">
     <p>start of a beautiful thing</p>
     <h1>Rhythm Game</h1>
-    <h2>Press Start</h2>
+
     <div>
         <button autofocus="true" id="song-0">Choose Your Song</button>
         <button id="song-1">Never Gonna Give You Up</button>
@@ -24,36 +28,41 @@
 
 
 <div id="game-screen">
-    <div id="score"></div>
-    <div id="streaks"></div>
+    <div id="score">Score: 0</div>
+    <div id="streaks">Streaks: 0</div>
+    <button id="quit-button">Quit Game</button>
     <canvas></canvas>
 </div>
 
 
-
-
-
-<div id="game-grid">
-    <div class="column-1"></div>
-    <div class="column-2"></div>
-    <div class="column-3"></div>
-    <div class="column-4">
-
-    </div>
-    <div class="column-5"></div>
-    <div class="column-6"></div>
-    <div class="column-7"></div>
-
-    <div class="column-1 player-1"></div>
-    <div class="column-2 player-2"></div>
-    <div class="column-3 player-3"></div>
-    <div class="column-4 player-4">
-<!--        <div id="player"> </div>-->
-    </div>
-    <div class="column-12 player-5"></div>
-    <div class="column-13 player-6"></div>
-    <div class="column-14 player-7"></div>
+<div id="end-screen">
+    <div id="end-score">Score: 0</div>
+    <div id="end-streaks">Streaks: 0</div>
+    <button id="play-again-button">Play Again</button>
 </div>
+
+
+<!--<div id="game-grid">-->
+<!--    <div class="column-1"></div>-->
+<!--    <div class="column-2"></div>-->
+<!--    <div class="column-3"></div>-->
+<!--    <div class="column-4">-->
+
+<!--    </div>-->
+<!--    <div class="column-5"></div>-->
+<!--    <div class="column-6"></div>-->
+<!--    <div class="column-7"></div>-->
+
+<!--    <div class="column-1 player-1"></div>-->
+<!--    <div class="column-2 player-2"></div>-->
+<!--    <div class="column-3 player-3"></div>-->
+<!--    <div class="column-4 player-4">-->
+<!--&lt;!&ndash;        <div id="player"> </div>&ndash;&gt;-->
+<!--    </div>-->
+<!--    <div class="column-12 player-5"></div>-->
+<!--    <div class="column-13 player-6"></div>-->
+<!--    <div class="column-14 player-7"></div>-->
+<!--</div>-->
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.0/gsap.min.js"></script>

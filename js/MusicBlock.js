@@ -8,7 +8,7 @@ export default class MusicBlock {
         this.width = width;
         this.height = height;
         this.color = 'red'
-        this.dy = 3;
+        this.dy = 5;
         this.isHit = false
         this.isMissed = false
 
