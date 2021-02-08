@@ -18,6 +18,9 @@ const endScreen = document.querySelector('#end-screen')
 const playAgainButton = document.querySelector('#play-again-button')
 const quitButton = document.querySelector('#quit-button')
 
+let endScoreHolder = document.querySelector('#end-score')
+let endStreaksHolder = document.querySelector('#end-streaks')
+
 introScreen.style.display = 'block'
 startScreen.style.display = 'none'
 endScreen.style.display = 'none'
@@ -57,8 +60,6 @@ addEventListener('keydown', (e) => {
                     introScreen.style.display = 'none'
 
                 }
-
-
     }
 
 
@@ -108,7 +109,10 @@ for(let i=0 ; i < 3; i++) {
             game.stop()
             gameScreen.style.display = 'none'
             endScreen.style.display = 'block'
+            endScoreHolder.textContent = `Final Score: ${game.score}`
+            endStreaksHolder.textContent = `Longest streak: ${game.longestStreaks}`
         })
+
 
 
         game.render()
