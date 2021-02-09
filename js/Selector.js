@@ -15,21 +15,26 @@ export default class Selector {
     }
 
     move(key) {
+
+        document.querySelector(`#song-${this.selection}`).classList.remove('selected')
+
         if(key === 'ArrowLeft') {
-            this.selection > 0 ? this.selection-- : 0
+            this.selection > 0 ? this.selection-- : this.selection = songs.length - 1
         }   else if (key === 'ArrowRight') {
-            this.selection < songs.length ? this.selection++ : this.selection = songs.length
+            this.selection < songs.length - 1?  this.selection++ : this.selection = 0
         }
         console.log(this.selection)
 
-        if(this.selection > 0 && this.selection <= songs.length ) {
+        if(this.selection >= 0 && this.selection < songs.length ) {
 
             this.song.pause()
 
-            let { previewTime, audio } = songs[this.selection - 1]
+            let { previewTime, audio } = songs[this.selection]
 
             this.song = new Audio (`${audio}#t=${previewTime},${previewTime + this.previewLength}`)
-            document.querySelector(`#song-${this.selection}`).focus()
+
+
+            document.querySelector(`#song-${this.selection}`).classList.add('selected')
             this.selectionSoundEffect.currentTime = 0
             this.selectionSoundEffect.play()
 
@@ -42,9 +47,4 @@ export default class Selector {
 }
 
 
-
-    select() {
-        document.querySelector(`#song-${this.selection}`).click()
-        this.song.pause()
-    }
 }

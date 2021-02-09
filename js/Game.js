@@ -1,5 +1,6 @@
 import MusicBlock from "./MusicBlock.js";
 import PlayerHitBox from "./PlayerHitBox.js";
+import gameAudio from './gameAudio.js';
 
 let scoreHolder = document.querySelector('#score')
 let streaksHolder = document.querySelector('#streaks')
@@ -12,6 +13,7 @@ const endScreen = document.querySelector('#end-screen')
 
 const keyWidth = 100
 const keyHeight = 30
+
 
 
 export default class Game {
@@ -47,8 +49,10 @@ export default class Game {
 
         this.selectedSong.addEventListener('ended', (e) => {
             console.log('Song ended')
-
+            let endingApplause = new Audio(gameAudio.endingApplause)
+            endingApplause.play()
             this.stop()
+
 
         })
     }
@@ -58,17 +62,23 @@ export default class Game {
 
             this.generateMusicBlock(this.blockInterval)
 
-
             this.isMissed(this.musicBlockArray, this.playerHitBoxArray)
-
 
             requestAnimationFrame(() => {
                 this.render()
             })
+
             for (let i = 0; i < this.controlKeyArray.length; i++) {
                 this.playerHitBoxArray[i].draw()
             }
+        }   else {
+            console.log(this.isEnd)
+            cancelAnimationFrame(requestAnimationFrame(() => {
+                this.render()
+            }))
+
         }
+
     }
 
     stop() {

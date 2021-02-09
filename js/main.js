@@ -29,6 +29,7 @@ gameScreen.style.display = 'none'
 
 let introSong = new Audio(gameAudio.introSong)
 let confirmationSoundEffect = new Audio(gameAudio.confirmationSoundEffect)
+let endingBoo = new Audio(gameAudio.endingBoo)
 let selector = new Selector()
 
 let songCardsHolder = document.createElement('div')
@@ -60,7 +61,7 @@ songs.forEach((song, index) => {
 
     let songCardHolder = document.createElement('div')
     songCardHolder.setAttribute('class',`start-screen__song-cards__song-card`)
-    songCardHolder.setAttribute('id','1')
+    songCardHolder.setAttribute('id',`song-${index}`)
 
     songCardHolder.appendChild(coverArtHolder)
     songCardHolder.appendChild(songTitleHolder)
@@ -72,114 +73,120 @@ songs.forEach((song, index) => {
 
 startScreen.appendChild(songCardsHolder)
 
+
 addEventListener('keydown', (e) => {
 
     e.preventDefault()
 
-        introSong.pause()
+    console.log(e.key)
 
-        switch(e.key) {
-            case 'ArrowLeft':
-            case 'ArrowRight':
-                if(startScreen.style.display === 'flex') {
-                    selector.move(e.key)
-                }
-                break
+    switch(e.key) {
+        case 'ArrowLeft':
+        case 'ArrowRight':
+            if(startScreen.style.display === 'flex') {
+                introSong.pause()
+                selector.move(e.key)
+            }
+            break
 
-            case 'Enter':
+        case 'Enter':
 
-                if(startScreen.style.display === 'flex') {
-                    selector.select()
-                }
+            if(startScreen.style.display === 'flex') {
 
-                if(introScreen.style.display === 'block') {
-                    confirmationSoundEffect.currentTime = 0
-                    confirmationSoundEffect.play()
+                selector.song.pause()
+                introSong.pause()
 
-                    introSong.play()
+                let game = new Game(songs[selector.selection])
 
+                startScreen.style.display = 'none'
+                gameScreen.style.display = 'block'
+
+                addEventListener('keydown',(e) => {
+                    e.preventDefault()
+                    for (let i = 0 ; i < game.controlKeyArray.length; i++) {
+                        if(e.key == game.controlKeyArray[i]) {
+
+                            game.playerHitBoxArray[i].color = 'blue'
+                            game.playerHitBoxArray[i].isActive = true
+                            game.isCollided(game.musicBlockArray,game.playerHitBoxArray)
+                        }
+                    }
+
+                })
+
+                addEventListener('keyup',(e) => {
+                    game.controlKeyArray.forEach((key, index) => {
+                        if(e.key == key) {
+                            let position = index + 1
+                            let color
+                            switch(position) {
+                                case 1:
+                                case 7:
+                                    color = '#95FF95'
+                                    break
+                                case 2:
+                                case 6:
+                                    color = '#FFFF77'
+                                    break
+                                case 3:
+                                case 5:
+                                    color = '#6B6BFB'
+                                    break
+                                default:
+                                    color = '#F57272'
+                            }
+
+                            game.playerHitBoxArray[index].color = color
+                            game.playerHitBoxArray[index].isActive = false
+                        }
+                    })
+                })
+
+                playAgainButton.addEventListener('click', (e) => {
+                    endScreen.style.display = 'none'
                     startScreen.style.display = 'flex'
-                    introScreen.style.display = 'none'
+                    introSong.currentTime = 0
+                    introSong.play()
+                })
 
-                }
+                quitButton.addEventListener('click', (e) => {
+
+                    endingBoo.currentTime = 0;
+                    endingBoo.play()
+                    game.stop()
+                    game.isEnd = true
+                    gameScreen.style.display = 'none'
+                    endScreen.style.display = 'block'
+                    endScoreHolder.textContent = `Final Score: ${game.score}`
+                    endStreaksHolder.textContent = `Longest streak: ${game.longestStreaks}`
+                })
+
+
+
+                game.render()
+
+            }
+
+            if(introScreen.style.display === 'block') {
+                confirmationSoundEffect.currentTime = 0
+                confirmationSoundEffect.play()
+
+                introSong.play()
+
+                startScreen.style.display = 'flex'
+                introScreen.style.display = 'none'
+
+            }
     }
 
 
 })
-
-
-for(let i=0 ; i < 3; i++) {
-    document.querySelector(`#song-${i+1}`).addEventListener('click', (e) => {
-        introSong.pause()
-        console.log(`clicked song ${i+1}`)
-        let game = new Game(songs[i])
-
-        startScreen.style.display = 'none'
-        gameScreen.style.display = 'block'
-
-
-        addEventListener('keydown',(e) => {
-            e.preventDefault()
-            for (let i = 0 ; i < game.controlKeyArray.length; i++) {
-                if(e.key == game.controlKeyArray[i]) {
-
-                    game.playerHitBoxArray[i].color = 'blue'
-                    game.playerHitBoxArray[i].isActive = true
-                    game.isCollided(game.musicBlockArray,game.playerHitBoxArray)
-                }
-            }
-
-        })
-
-        addEventListener('keyup',(e) => {
-            game.controlKeyArray.forEach((key, index) => {
-                if(e.key == key) {
-                    let position = index + 1
-                    let color
-                    switch(position) {
-                        case 1:
-                        case 7:
-                            color = '#95FF95'
-                            break
-                        case 2:
-                        case 6:
-                            color = '#FFFF77'
-                            break
-                        case 3:
-                        case 5:
-                            color = '#6B6BFB'
-                            break
-                        default:
-                            color = '#F57272'
-                    }
-
-                    game.playerHitBoxArray[index].color = color
-                    game.playerHitBoxArray[index].isActive = false
-                }
-            })
-        })
-
-        playAgainButton.addEventListener('click', (e) => {
-            endScreen.style.display = 'none'
-            startScreen.style.display = 'block'
-            introSong.currentTime = 0
-            introSong.play()
-        })
-
-        quitButton.addEventListener('click', (e) => {
-            game.stop()
-            game.isEnd = true
-            gameScreen.style.display = 'none'
-            endScreen.style.display = 'block'
-            endScoreHolder.textContent = `Final Score: ${game.score}`
-            endStreaksHolder.textContent = `Longest streak: ${game.longestStreaks}`
-        })
-
-
-
-        game.render()
-
-    })
-}
-
+//
+//
+// for(let i=0 ; i < 3; i++) {
+//     document.querySelector(`#song-${i+1}`).addEventListener('click', (e) => {
+//
+//     })
+// }
+//
 

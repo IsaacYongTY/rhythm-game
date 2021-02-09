@@ -6,6 +6,8 @@ body {
   margin: 0;
   padding: 0;
   color: white;
+  font-family: "Nico-Moji";
+  box-sizing: border-box;
 }
 
 .d-flex, .container, .start-screen__song-cards__song-card__song-title, .start-screen__song-cards__song-card, .start-screen {
@@ -49,6 +51,9 @@ body {
   width: 100vw;
   height: 100vh;
 }
+.start-screen > p {
+  color: #95FF95;
+}
 .start-screen__title {
   font-size: 9.6rem;
   margin-top: 0;
@@ -62,18 +67,28 @@ body {
   padding: 0;
   margin: 0;
 }
+.start-screen__song-cards__song-card:hover {
+  cursor: pointer;
+}
+.start-screen__song-cards__song-card:focus {
+  background-color: red;
+  outline: none;
+}
 .start-screen__song-cards__song-card {
   flex-direction: column;
+  padding-top: 5rem;
   width: 50rem;
-  height: 70rem;
+  height: 55rem;
   text-align: center;
   align-self: center;
   justify-self: center;
+  border: none;
+  background-color: transparent;
 }
 .start-screen__song-cards__song-card__cover-art {
   width: 40rem;
   height: 40rem;
-  margin: 3rem auto 0 auto;
+  margin: 1rem auto 0 auto;
   background-size: contain;
   background-repeat: no-repeat;
 }
@@ -89,10 +104,7 @@ body {
 }
 .start-screen__song-cards__song-card__artist {
   font-size: 2.4rem;
-}
-
-body {
-  font-family: "Nico-Moji";
+  padding-bottom: 3rem;
 }
 
 .container {
@@ -108,6 +120,7 @@ body {
 
 .selected {
   border: 3px solid yellow;
+  zoom: 1.05;
 }
 
 /*# sourceMappingURL=output.css.map */

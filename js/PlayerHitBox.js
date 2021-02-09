@@ -8,6 +8,24 @@ export default class PlayerHitBox {
 
         this.position = index + 1
 
+        switch(this.position) {
+            case 1:
+            case 7:
+                this.color = '#95FF95'
+                break
+            case 2:
+            case 6:
+                this.color = '#FFFF77'
+                break
+            case 3:
+            case 5:
+                this.color = '#6B6BFB'
+                break
+            default:
+                this.color = '#F57272'
+
+        }
+
         this.width = width
         this.height = height
         this.isActive = false
