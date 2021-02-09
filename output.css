@@ -1,13 +1,113 @@
-body {
-  margin: 0;
+html {
+  font-size: 62.5%;
 }
 
-.d-flex {
+body {
+  margin: 0;
+  padding: 0;
+  color: white;
+}
+
+.d-flex, .container, .start-screen__song-cards__song-card__song-title, .start-screen__song-cards__song-card, .start-screen {
   display: flex;
 }
 
-p {
-  color: #95FF95;
+@font-face {
+  font-family: "Nico-Moji";
+  src: url("./assets/fonts/nico-moji/Nico-Moji.ttf.woff") format("woff"), url("./assets/fonts/nico-moji/Nico-Moji.ttf.svg#Nico-Moji") format("svg"), url("./assets/fonts/nico-moji/Nico-Moji.ttf.eot"), url("./assets/fonts/nico-moji/Nico-Moji.ttf.eot?#iefix") format("embedded-opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+#intro-screen {
+  text-align: center;
+}
+#intro-screen__title {
+  font-size: 12rem;
+}
+#intro-screen h2 {
+  animation: text-blink 1.5s ease-in-out infinite;
+  font-size: 36px;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
+}
+
+@keyframes text-blink {
+  0% {
+    opacity: 100;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 100;
+  }
+}
+.start-screen {
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+}
+.start-screen__title {
+  font-size: 9.6rem;
+  margin-top: 0;
+  margin: 2rem 0 0 0;
+}
+.start-screen__song-cards {
+  display: grid;
+  width: 100%;
+  align-self: center;
+  justify-self: center;
+  padding: 0;
+  margin: 0;
+}
+.start-screen__song-cards__song-card {
+  flex-direction: column;
+  width: 50rem;
+  height: 70rem;
+  text-align: center;
+  align-self: center;
+  justify-self: center;
+}
+.start-screen__song-cards__song-card__cover-art {
+  width: 40rem;
+  height: 40rem;
+  margin: 3rem auto 0 auto;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+.start-screen__song-cards__song-card__song-title {
+  height: 12rem;
+  justify-content: center;
+  align-items: center;
+  margin: 0 6rem;
+}
+.start-screen__song-cards__song-card__song-title > p {
+  margin: 0;
+  font-size: 3.6rem;
+}
+.start-screen__song-cards__song-card__artist {
+  font-size: 2.4rem;
+}
+
+body {
+  font-family: "Nico-Moji";
+}
+
+.container {
+  justify-content: center;
+  align-items: center;
+  background-color: lightblue;
+  width: 100vw;
+  height: 100vh;
+  background-image: url("./assets/img/disco-ball-bg.jpeg");
+  background-size: 90%;
+  background-position-x: 400px;
+}
+
+.selected {
+  border: 3px solid yellow;
 }
 
 /*# sourceMappingURL=output.css.map */

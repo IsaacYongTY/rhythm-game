@@ -1,6 +1,34 @@
 @import './_general';
+@import './base/_typography';
 @import './base/_base.scss';
 
-p {
-  color: $lightgreen
+@import './intro-screen';
+@import './start-screen';
+
+body {
+  font-family: 'Nico-Moji';
 }
+
+.container {
+  @extend .d-flex;
+
+  justify-content: center;
+  align-items: center;
+  background-color: lightblue;
+  width: 100vw;
+  height: 100vh;
+  background-image: $background-image;
+  background-size: 90%;
+  background-position-x: 400px;
+  //background-repeat: no-repeat;
+}
+
+
+
+
+.selected {
+  border: 3px solid yellow;
+}
+
+
+

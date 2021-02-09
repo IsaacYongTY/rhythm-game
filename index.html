@@ -17,40 +17,48 @@
 
 <script type="module" src="./js/main.js" /></script>
 
+<div class="container">
+    <div id="intro-screen">
+        <h1 id="intro-screen__title">Fever Time</h1>
+        <h2>Press Enter to Start</h2>
 
-<div id="intro-screen">
-    <h2>Press Enter to Start</h2>
-</div>
+    </div>
 
-<div id="start-screen">
-    <p>start of a beautiful thing</p>
-    <h1>Rhythm Game</h1>
+    <div class="start-screen">
 
-    <div>
-        <button autofocus="true" id="song-0">Choose Your Song</button>
-        <button id="song-1">Never Gonna Give You Up</button>
-        <button id="song-2">Starboy</button>
-        <button id="song-3">34+35</button>
+        <h1 class="start-screen__title">Fever Time</h1>
+        <p>start of a beautiful thing</p>
+
+        <div>
+            <button autofocus="true" id="song-0">Choose Your Song</button>
+            <button id="song-1">Never Gonna Give You Up</button>
+            <button id="song-2">Starboy</button>
+            <button id="song-3">34+35</button>
+        </div>
+
+
+    </div>
+
+
+    <div id="game-screen">
+        <div id="score">Score: 0</div>
+        <div id="streaks">Streaks: 0</div>
+
+        <div>
+            <button id="quit-button">Quit Game</button>
+        </div>
+        <canvas></canvas>
+    </div>
+
+
+    <div id="end-screen">
+        <div id="end-score">Score: 0</div>
+        <div id="end-streaks">Streaks: 0</div>
+        <button id="play-again-button">Play Again</button>
     </div>
 </div>
 
 
-<div id="game-screen">
-    <div id="score">Score: 0</div>
-    <div id="streaks">Streaks: 0</div>
-
-    <div>
-        <button id="quit-button">Quit Game</button>
-    </div>
-    <canvas></canvas>
-</div>
-
-
-<div id="end-screen">
-    <div id="end-score">Score: 0</div>
-    <div id="end-streaks">Streaks: 0</div>
-    <button id="play-again-button">Play Again</button>
-</div>
 
 
 

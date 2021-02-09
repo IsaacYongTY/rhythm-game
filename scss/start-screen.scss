@@ -1,0 +1,69 @@
+.start-screen {
+  @extend .d-flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+
+
+  width: 100vw;
+  height: 100vh;
+
+  &__title {
+    font-size: $title-font-size-l;
+    margin-top: 0;
+    margin: 2rem 0 0 0;
+  }
+
+  &__song-cards {
+    display: grid;
+
+    width: 100%;
+    align-self: center;
+    justify-self: center;
+    padding: 0;
+    margin: 0;
+
+
+    &__song-card {
+      @extend .d-flex;
+      flex-direction: column;
+      width: 50rem;
+      height: 70rem;
+      text-align: center;
+      align-self: center;
+      justify-self: center;
+
+
+      &__cover-art {
+        width:40rem;
+        height: 40rem;
+        margin: 3rem auto 0 auto;
+
+        background-size: contain;
+        background-repeat: no-repeat;
+      }
+
+      &__song-title {
+        @extend .d-flex;
+        height: 12rem;
+        justify-content: center;
+        align-items: center;
+        margin: 0 6rem;
+
+
+        > p {
+
+          margin: 0;
+          font-size: 3.6rem;
+        }
+      }
+
+      &__artist  {
+        font-size: 2.4rem;
+      }
+
+
+    }
+  }
+
+}

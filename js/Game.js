@@ -43,21 +43,7 @@ export default class Game {
             return resultArray
         })
 
-        // this.musicBlockArray = song.songMap.map((line,i) => {
-        //     let resultArray = []
-        //
-        //     if(line.indexOf(1) >= 0) {
-        //         line.forEach((position,index) => {
-        //
-        //             if(position == 1) {
-        //                 resultArray.push(new MusicBlock((index + 1) * keyWidth, 0, keyWidth, keyHeight,this.speed))
-        //             }
-        //         })
-        //     }
-        //     return resultArray
-        // })
-
-            this.selectedSong.play()
+        this.selectedSong.play()
 
         this.selectedSong.addEventListener('ended', (e) => {
             console.log('Song ended')
@@ -82,13 +68,7 @@ export default class Game {
             for (let i = 0; i < this.controlKeyArray.length; i++) {
                 this.playerHitBoxArray[i].draw()
             }
-
         }
-
-
-
-
-
     }
 
     stop() {
@@ -102,7 +82,7 @@ export default class Game {
 
     createKeys(numOfKeys, startingX, startingY, width,height) {
         return Array(numOfKeys).fill(0).map((element, index) =>
-            new PlayerHitBox(startingX + width * index, startingY, width, height))
+            new PlayerHitBox(startingX + width * index, startingY, width, height,index))
     }
 
 // [1]
