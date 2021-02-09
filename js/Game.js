@@ -26,6 +26,7 @@ export default class Game {
         this.subBeat = song.subBeat
         this.blockInterval = (1 / ( this.song.bpm / 60 ) * 1000 / this.subBeat ).toFixed(2)
         this.speed = 5
+        this.isEnd = false
 
         this.musicBlockArray = song.songMap.map((line,i) => {
             let resultArray = []
@@ -56,36 +57,43 @@ export default class Game {
         //     return resultArray
         // })
 
-        this.selectedSong.onloadeddata = () => {
             this.selectedSong.play()
-        }
+
         this.selectedSong.addEventListener('ended', (e) => {
             console.log('Song ended')
+
             this.stop()
 
         })
     }
 
     render() {
-
+        if(!this.isEnd) {
 
             this.generateMusicBlock(this.blockInterval)
 
 
-            this.isMissed(this.musicBlockArray,this.playerHitBoxArray)
+            this.isMissed(this.musicBlockArray, this.playerHitBoxArray)
+
+
             requestAnimationFrame(() => {
                 this.render()
             })
-
-            for (let i = 0 ; i < this.controlKeyArray.length; i++) {
+            for (let i = 0; i < this.controlKeyArray.length; i++) {
                 this.playerHitBoxArray[i].draw()
             }
+
+        }
+
+
+
 
 
     }
 
     stop() {
         this.selectedSong.pause()
+        this.isEnd = true
         endScoreHolder.textContent = `Final Score: ${this.score}`
         endStreaksHolder.textContent = `Longest streak: ${this.longestStreaks}`
         gameScreen.style.display = 'none'

@@ -107,6 +107,7 @@ for(let i=0 ; i < 3; i++) {
 
         quitButton.addEventListener('click', (e) => {
             game.stop()
+            game.isEnd = true
             gameScreen.style.display = 'none'
             endScreen.style.display = 'block'
             endScoreHolder.textContent = `Final Score: ${game.score}`

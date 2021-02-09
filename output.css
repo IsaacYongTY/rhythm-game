@@ -2,116 +2,12 @@ body {
   margin: 0;
 }
 
-.d-flex, #game-grid .column-14, #game-grid .column-13, #game-grid .column-12, #game-grid .column-11, #game-grid .column-10, #game-grid .column-9, #game-grid .column-8, #game-grid .column-7, #game-grid .column-6, #game-grid .column-5, #game-grid .column-4, #game-grid .column-3, #game-grid .column-2, #game-grid .column-1 {
+.d-flex {
   display: flex;
 }
 
-#game-grid {
-  background-color: lightblue;
-  width: 80%;
-  height: 500px;
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  grid-template-rows: 4fr 1fr;
-}
-#game-grid .column-1 {
-  position: relative;
-  justify-content: center;
-  border: 1px solid black;
-}
-#game-grid .column-2 {
-  position: relative;
-  justify-content: center;
-  border: 1px solid black;
-}
-#game-grid .column-3 {
-  position: relative;
-  justify-content: center;
-  border: 1px solid black;
-}
-#game-grid .column-4 {
-  position: relative;
-  justify-content: center;
-  border: 1px solid black;
-}
-#game-grid .column-5 {
-  position: relative;
-  justify-content: center;
-  border: 1px solid black;
-}
-#game-grid .column-6 {
-  position: relative;
-  justify-content: center;
-  border: 1px solid black;
-}
-#game-grid .column-7 {
-  position: relative;
-  justify-content: center;
-  border: 1px solid black;
-}
-#game-grid .column-8 {
-  position: relative;
-  justify-content: center;
-  border: 1px solid black;
-}
-#game-grid .column-9 {
-  position: relative;
-  justify-content: center;
-  border: 1px solid black;
-}
-#game-grid .column-10 {
-  position: relative;
-  justify-content: center;
-  border: 1px solid black;
-}
-#game-grid .column-11 {
-  position: relative;
-  justify-content: center;
-  border: 1px solid black;
-}
-#game-grid .column-12 {
-  position: relative;
-  justify-content: center;
-  border: 1px solid black;
-}
-#game-grid .column-13 {
-  position: relative;
-  justify-content: center;
-  border: 1px solid black;
-}
-#game-grid .column-14 {
-  position: relative;
-  justify-content: center;
-  border: 1px solid black;
-}
-
-#player {
-  width: 100px;
-  height: 100px;
-  background-color: red;
-  border-radius: 50%;
-}
-
-.music-block {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 50px;
-  height: 50px;
-  background-color: green;
-}
-
-.drop {
-  animation: fall-down 5s linear;
-}
-
-@keyframes fall-down {
-  from {
-    top: 0;
-  }
-  to {
-    top: 1000px;
-  }
+p {
+  color: #95FF95;
 }
 
 /*# sourceMappingURL=output.css.map */
