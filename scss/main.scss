@@ -16,15 +16,76 @@
   background-image: $background-image;
   background-size: 90%;
   background-position-x: 400px;
-  //background-repeat: no-repeat;
 }
 
-
-
-
 .selected {
-  border: 3px solid yellow;
+  animation: frame-blink 1.2s ease-in-out;
+  border: 3px solid $lightgreen;
   zoom: 1.05;
+}
+
+@keyframes frame-blink {
+  0% {
+    opacity: 100;
+  }
+  50% {
+    opacity: 40;
+  }
+  100% {
+    opacity: 100;
+  }
+}
+
+.end-screen {
+  @extend .d-flex;
+  width: 100%;
+  height: 100vh;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  &__result-grids {
+    display: grid;
+    grid-template: repeat(2, 1fr) / repeat(3, 1fr);
+    width: 80%;
+    height: 40rem;
+    font-size: 2.4rem;
+
+     div {
+      @extend .d-flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    &__cover-art {
+      grid-row: span 2;
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: 50% 50% ;
+
+    }
+
+    &__end-score-grid {
+        @extend .d-flex;
+        flex-direction: column;
+
+        &__end-score {
+          font-size: 7.2rem;
+        }
+    }
+
+    &__end-streaks-grid {
+      @extend .d-flex;
+      flex-direction: column;
+
+      &__end-streaks {
+        font-size: 7.2rem;
+      }
+    }
+    &__grade {
+      font-size: 25rem;
+    }
+  }
 }
 
 

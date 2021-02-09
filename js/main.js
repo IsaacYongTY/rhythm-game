@@ -14,12 +14,12 @@ canvas.height = innerHeight
 const introScreen = document.querySelector('#intro-screen')
 const startScreen = document.querySelector('.start-screen')
 const gameScreen = document.querySelector('#game-screen')
-const endScreen = document.querySelector('#end-screen')
+const endScreen = document.querySelector('.end-screen')
 const playAgainButton = document.querySelector('#play-again-button')
 const quitButton = document.querySelector('#quit-button')
 
-let endScoreHolder = document.querySelector('#end-score')
-let endStreaksHolder = document.querySelector('#end-streaks')
+let endScoreHolder = document.querySelector('.end-screen__result-grids__end-score')
+let endStreaksHolder = document.querySelector('.end-screen__result-grids__end-streaks-grid__end-streaks')
 
 introScreen.style.display = 'block'
 startScreen.style.display = 'none'
@@ -67,7 +67,15 @@ songs.forEach((song, index) => {
     songCardHolder.appendChild(songTitleHolder)
     songCardHolder.appendChild(artistHolder)
 
+    // songCardHolder.addEventListener('click', (e) => {
+    //     let selectedCard = document.querySelector(`#song-${index}`)
+    //
+    //     selectedCard.classList.add
+    // })
+
     songCardsHolder.appendChild(songCardHolder)
+
+
 
 })
 
@@ -142,13 +150,6 @@ addEventListener('keydown', (e) => {
                     })
                 })
 
-                playAgainButton.addEventListener('click', (e) => {
-                    endScreen.style.display = 'none'
-                    startScreen.style.display = 'flex'
-                    introSong.currentTime = 0
-                    introSong.play()
-                })
-
                 quitButton.addEventListener('click', (e) => {
 
                     endingBoo.currentTime = 0;
@@ -156,12 +157,9 @@ addEventListener('keydown', (e) => {
                     game.stop()
                     game.isEnd = true
                     gameScreen.style.display = 'none'
-                    endScreen.style.display = 'block'
-                    endScoreHolder.textContent = `Final Score: ${game.score}`
-                    endStreaksHolder.textContent = `Longest streak: ${game.longestStreaks}`
+                    endScreen.style.display = 'flex'
+
                 })
-
-
 
                 game.render()
 
@@ -177,16 +175,16 @@ addEventListener('keydown', (e) => {
                 introScreen.style.display = 'none'
 
             }
+
+            if(endScreen.style.display === 'flex') {
+                introScreen.style.display = 'block'
+                endScreen.style.display = 'none'
+
+                endingBoo.pause()
+                introSong.currentTime = 0
+                introSong.play()
+            }
     }
-
-
 })
-//
-//
-// for(let i=0 ; i < 3; i++) {
-//     document.querySelector(`#song-${i+1}`).addEventListener('click', (e) => {
-//
-//     })
-// }
-//
+
 

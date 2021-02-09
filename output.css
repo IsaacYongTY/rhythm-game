@@ -8,9 +8,11 @@ body {
   color: white;
   font-family: "Nico-Moji";
   box-sizing: border-box;
+  width: 100%;
+  height: 100vh;
 }
 
-.d-flex, .container, .start-screen__song-cards__song-card__song-title, .start-screen__song-cards__song-card, .start-screen {
+.d-flex, .end-screen__result-grids__end-streaks-grid, .end-screen__result-grids__end-score-grid, .end-screen__result-grids div, .end-screen, .container, .start-screen__song-cards__song-card__song-title, .start-screen__song-cards__song-card, .start-screen {
   display: flex;
 }
 
@@ -86,8 +88,8 @@ body {
   background-color: transparent;
 }
 .start-screen__song-cards__song-card__cover-art {
-  width: 40rem;
-  height: 40rem;
+  min-width: 40rem;
+  min-height: 40rem;
   margin: 1rem auto 0 auto;
   background-size: contain;
   background-repeat: no-repeat;
@@ -119,8 +121,60 @@ body {
 }
 
 .selected {
-  border: 3px solid yellow;
+  animation: frame-blink 1.2s ease-in-out;
+  border: 3px solid #95FF95;
   zoom: 1.05;
+}
+
+@keyframes frame-blink {
+  0% {
+    opacity: 100;
+  }
+  50% {
+    opacity: 40;
+  }
+  100% {
+    opacity: 100;
+  }
+}
+.end-screen {
+  width: 100%;
+  height: 100vh;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.end-screen__result-grids {
+  display: grid;
+  grid-template: repeat(2, 1fr)/repeat(3, 1fr);
+  width: 80%;
+  height: 40rem;
+  font-size: 2.4rem;
+}
+.end-screen__result-grids div {
+  justify-content: center;
+  align-items: center;
+}
+.end-screen__result-grids__cover-art {
+  grid-row: span 2;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: 50% 50%;
+}
+.end-screen__result-grids__end-score-grid {
+  flex-direction: column;
+}
+.end-screen__result-grids__end-score-grid__end-score {
+  font-size: 7.2rem;
+}
+.end-screen__result-grids__end-streaks-grid {
+  flex-direction: column;
+}
+.end-screen__result-grids__end-streaks-grid__end-streaks {
+  font-size: 7.2rem;
+}
+.end-screen__result-grids__grade {
+  font-size: 25rem;
 }
 
 /*# sourceMappingURL=output.css.map */

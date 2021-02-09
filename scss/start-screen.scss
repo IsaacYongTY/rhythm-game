@@ -49,8 +49,9 @@
       background-color: transparent;
 
       &__cover-art {
-        width:40rem;
-        height: 40rem;
+        min-width:40rem;
+
+        min-height: 40rem;
         margin: 1rem auto 0 auto;
 
         background-size: contain;
