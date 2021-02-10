@@ -7,7 +7,7 @@ export default class MusicBlock {
         this.y = y;
         this.width = width;
         this.height = height;
-        this.color = 'red'
+        this.color = '#F70D1A'
         this.dy = speed;
         this.isHit = false
         this.isMissed = false
@@ -15,11 +15,14 @@ export default class MusicBlock {
     }
 
     draw() {
-        ctx.clearRect(this.x,this.y - this.dy,this.width,this.height)
-        ctx.beginPath()
-        ctx.fillStyle = this.color
-        ctx.fillRect(this.x,this.y,this.width,this.height)
-        ctx.fill()
+        this.remove()
+        if(this.y < canvas.height) {
+
+            ctx.fillStyle = this.color
+            ctx.fillRect(this.x,this.y,this.width,this.height)
+            ctx.fill()
+        }
+
     }
 
     remove() {

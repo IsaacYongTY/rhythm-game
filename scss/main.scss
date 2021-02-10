@@ -13,6 +13,7 @@ canvas {
   left: 0;
   z-index: 2;
 }
+
 .container {
   @extend .d-flex;
 
@@ -78,22 +79,33 @@ canvas {
   &:focus {
     outline: none;
   }
+
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 #canvas-overlay {
-  position: absolute;
+  //position: relative;
+
   z-index: 0;
   top: 5rem;
   left: 28.5rem;
   background-color: rgba(255,255,255,0.1);
   width: 70rem;
-  height: 82rem;
+  height: 78rem;
 
   display: grid;
+  align-self: center;
   grid-template-columns: repeat(7, 1fr);
-
+  margin-left: 20rem;
+  color: rgba(255,255,255,0.3);
   > div {
-    border: 1px solid lightgrey;
+    @extend .d-flex;
+    justify-content: center;
+    align-items: flex-end;
+    padding-bottom: 1.5rem;
+    border: 1px solid rgb(200,200,200,0.1);
   }
 }
 

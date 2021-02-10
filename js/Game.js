@@ -38,7 +38,7 @@ export default class Game {
         this.playerHitBoxArray = this.createKeys(numOfKeys,startingX ,startingY,keyWidth,keyHeight)
         this.selectedSong = new Audio(this.song.audio)
         this.subBeat = song.subBeat
-        this.blockInterval = (1 / ( this.song.bpm / 60 ) * 1000 / this.subBeat ).toFixed(2)
+        this.blockInterval = (1 / ( this.song.bpm / 60 ) * 1000 / this.subBeat )
         this.speed = 5
         this.isEnd = false
 
@@ -59,14 +59,16 @@ export default class Game {
     render() {
 
         let self = this
+
         function frame() {
 
             self.generateMusicBlock(self.blockInterval)
 
             self.isMissed(self.musicBlockArray, self.playerHitBoxArray)
 
-            for (let i = 0; i < self.controlKeyArray.length; i++) {
-                self.playerHitBoxArray[i].draw()
+
+            for (const index of self.controlKeyArray.keys()) {
+                self.playerHitBoxArray[index].draw()
             }
 
             requestAnimationFrame(frame)
@@ -81,48 +83,7 @@ export default class Game {
 
     }
 
-    stop() {
-        ctx.clearRect(0,0, innerWidth, innerHeight)
 
-        gameScreen.style.display = 'none'
-        endScreen.style.display = 'flex'
-
-        let grade = ''
-        let gradeColor = 'white'
-        this.selectedSong.pause()
-        this.isEnd = true
-
-        scoreHolder.textContent = `${this.score}`
-        streaksHolder.textContent = `${this.longestStreaks}`
-
-        endScreenArtistHolder.innerHTML = ''
-        endScreenSongTitleHolder.innerHTML = ''
-        gradeHolder.innerHTML = ''
-        endScreenCoverArtHolder.style.backgroundImage = `url('${this.song.coverArt}')`
-
-        endScreenSongTitleHolder.textContent = `${this.song.title}`
-        endScreenArtistHolder.textContent = `${this.song.artist}`
-
-        endScoreHolder.textContent = `${this.score}`
-        endStreaksHolder.textContent = `${this.longestStreaks}`
-
-        if(this.score > 3000) {
-            grade = 'A'
-            gradeColor = '#FFD700'
-        } else if (this.score > 2000){
-            grade = 'B'
-        } else if (this.score > 100) {
-            grade = 'C'
-        } else {
-            grade = 'F'
-            gradeColor = '#8b0000'
-        }
-
-        let gradeText = document.createTextNode(grade)
-        gradeHolder.appendChild(gradeText)
-        gradeHolder.style.color = gradeColor
-
-    }
 
     createKeys(numOfKeys, startingX, startingY, width,height) {
         return Array(numOfKeys).fill(0).map((element, index) =>
@@ -149,7 +110,6 @@ export default class Game {
 
         if(!this.isEnd) {
 
-
             this.musicBlockArray.forEach((musicBlock,index) => {
                 setTimeout(() => {
                     if (musicBlock.length > 0 && !this.isEnd) {
@@ -159,42 +119,19 @@ export default class Game {
                                 element.y += element.dy
                             }
                         })
-
-
                     }
                 }, index * interval)
             })
-
-
         }
-        // if(!this.isEnd) {
-        //
-        //
-        //     for (let i = 0; i < this.musicBlockArray.length; i++) {
-        //         setTimeout(() => {
-        //             if (this.musicBlockArray[i].length > 0 && !this.isEnd) {
-        //                 for (let j = 0; j < this.musicBlockArray[i].length; j++) {
-        //                     if (!this.musicBlockArray[i][j].isHit && !this.musicBlockArray[i][j].isMissed) {
-        //                         this.musicBlockArray[i][j].draw()
-        //                         this.musicBlockArray[i][j].y += this.musicBlockArray[i][j].dy
-        //                     }
-        //                 }
-        //             }
-        //         }, i * interval)
-        //     }
-        // }
     }
 
     isMissed(musicBlockArray, playerHitBoxArray) {
 
-        musicBlockArray.forEach((musicBlock) => {
-            playerHitBoxArray.forEach((playerHitBox) => {
-                musicBlock.forEach((element) => {
+        musicBlockArray.forEach((musicBlock, index) => {
 
-                    if (element.y > playerHitBox.y + playerHitBox.height
-                        && element.x === playerHitBox.x
-                        && !element.isMissed)
-                    {
+            if(musicBlock.length > 0 ) {
+                musicBlock.forEach((element) => {
+                    if(element.y - element.height > playerHitBoxArray[0].y && !element.isMissed ) {
                         element.isMissed = true
                         element.remove()
 
@@ -204,21 +141,22 @@ export default class Game {
 
                         this.streaks = 0
                         streaksHolder.textContent = String(0)
-                    }
+                     }
                 })
-            })
+            }
         })
     }
 
-    isCollided(musicBlockArray, playerHitBoxArray) {
+    isCollided(musicBlockArray, playerHitBoxArray,position) {
         musicBlockArray.forEach((musicBlock) => {
-            playerHitBoxArray.forEach((playerHitBox,i) => {
-                musicBlock.forEach((element,j) => {
-                    if(element.y > playerHitBox.y - playerHitBox.height
-                        && element.x === playerHitBox.x
-                        && playerHitBox.isActive
-                        && !element.isHit)
-                    {
+            musicBlock.forEach((element,j) => {
+
+            let playedKey = playerHitBoxArray[position]
+                if(playedKey.isActive) {
+                    if (element.y > playedKey.y - playedKey.height
+                        && element.x === playedKey.x
+
+                        && !element.isHit) {
                         element.remove()
 
                         this.score += 20
@@ -229,9 +167,59 @@ export default class Game {
 
                         element.isHit = true
                     }
-
-                })
+                }
             })
         })
+    }
+
+    getGrade(score) {
+        let grade
+        let gradeColor = 'white'
+
+        if(score > 3000) {
+            grade = 'A'
+            gradeColor = '#FFD700'
+        } else if (score > 2000){
+            grade = 'B'
+        } else if (score > 100) {
+            grade = 'C'
+        } else {
+            grade = 'F'
+            gradeColor = '#8b0000'
+        }
+
+        return { grade, gradeColor }
+    }
+
+    stop() {
+        ctx.clearRect(0,0, innerWidth, innerHeight)
+
+        gameScreen.style.display = 'none'
+        endScreen.style.display = 'flex'
+
+        this.selectedSong.pause()
+        this.isEnd = true
+
+        scoreHolder.textContent = '0'
+        streaksHolder.textContent = '0'
+
+        endScreenArtistHolder.innerHTML = ''
+        endScreenSongTitleHolder.innerHTML = ''
+        gradeHolder.innerHTML = ''
+        endScreenCoverArtHolder.style.backgroundImage = `url('${this.song.coverArt}')`
+
+        endScreenSongTitleHolder.textContent = `${this.song.title}`
+        endScreenArtistHolder.textContent = `${this.song.artist}`
+
+        endScoreHolder.textContent = `${this.score}`
+        endStreaksHolder.textContent = `${this.longestStreaks}`
+
+        let grade = this.getGrade(this.score).grade
+        let gradeColor = this.getGrade(this.score).gradeColor
+
+        let gradeText = document.createTextNode(grade)
+        gradeHolder.appendChild(gradeText)
+        gradeHolder.style.color = gradeColor
+
     }
 }

@@ -2,62 +2,80 @@
   height: 100vh;
   width: 90%;
 
-
     &__game-grids {
       display: grid;
       grid-template: repeat(4, 1fr) / repeat(4, 1fr);
       margin: 5rem auto 0 auto;
       height: 90%;
-      font-size: 4.8rem;
+      font-size: 3.6rem;
 
 
-      > div:first-child {
+      &__canvas-holder {
         width: 100%;
         position: relative;
-
-
-        //background-color: red;
         grid-row: 1 / span 4;
         grid-column: 1 / span 3;
       }
 
-      > div {
+      >div:nth-child(n+2) {
+        @extend .d-flex;
+        flex-direction: column;
+        font-size: 2.4rem;
+        align-items: center;
+        text-align: center;
 
       }
 
-
-
-    }
-
       &__score-holder {
-          &__score {
-            font-size: 10rem;
-          }
+
+        &__score {
+          font-size: 10rem;
+        }
       }
 
       &__streaks-holder {
+
         &__streaks {
-            font-size: 10rem;
+          font-size: 10rem;
         }
+
       }
 
       &__now-playing {
         grid-row: 3 / span 2;
-        background-color: green;
 
+
+
+        >div:first-child {
+        }
 
         &__cover-art {
-          width: 20rem;
-          height: 20rem;
+          width: 25rem;
+          height: 25rem;
+          background-size: contain;
+          margin: 2rem 0;
+          border-radius: 50%;
+          //animation: disc-spin 12s linear infinite;
+
+        }
+
+        &__song-title {
+          font-size: 2.4rem;
 
         }
 
         &__artist {
           font-size: 2.4rem;
-        }
-
-        &__song-title {
 
         }
+
+
+
+      }
     }
+}
+
+@keyframes disc-spin {
+  from { transform: rotate(0deg);}
+  to { transform: rotate(360deg);}
 }

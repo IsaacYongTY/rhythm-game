@@ -12,7 +12,7 @@ const endScreen = document.querySelector('.end-screen')
 const quitButton = document.querySelector('#quit-button')
 
 const canvas = document.querySelector('canvas')
-canvas.width = innerWidth
+canvas.width = innerWidth - 500
 canvas.height = innerHeight
 
 introScreen.style.display = 'block'
@@ -26,9 +26,9 @@ let confirmationSoundEffect = new Audio(gameAudio.confirmationSoundEffect)
 let endingBoo = new Audio(gameAudio.endingBoo)
 let selector = new Selector()
 
-let songCardsHolder = document.createElement('div')
+let songCardsHolder = document.querySelector('.start-screen__song-cards')
 
-songCardsHolder.setAttribute('class','start-screen__song-cards')
+// songCardsHolder.setAttribute('class','start-screen__song-cards')
 songCardsHolder.style.gridTemplateColumns = `repeat(${songs.length}, 1fr)`
 
 songs.forEach((song, index) => {
@@ -70,7 +70,7 @@ songs.forEach((song, index) => {
 
 })
 
-startScreen.appendChild(songCardsHolder)
+// startScreen.appendChild(songCardsHolder)
 
 
 addEventListener('keydown', (e) => {
@@ -108,54 +108,62 @@ addEventListener('keydown', (e) => {
 
                 addEventListener('keydown',(e) => {
                     e.preventDefault()
-                    for (let i = 0 ; i < game.controlKeyArray.length; i++) {
-                        if(e.key == game.controlKeyArray[i]) {
 
-                            game.playerHitBoxArray[i].color = 'blue'
-                            game.playerHitBoxArray[i].isActive = true
-                            game.isCollided(game.musicBlockArray,game.playerHitBoxArray)
-                        }
+
+                    if(game.controlKeyArray.includes(e.key)) {
+                        let playedKeyIndex = game.controlKeyArray.indexOf(e.key)
+                        game.playerHitBoxArray[playedKeyIndex].color = 'blue'
+                        game.playerHitBoxArray[playedKeyIndex].isActive = true
+                        game.isCollided(game.musicBlockArray,game.playerHitBoxArray, playedKeyIndex)
+
                     }
+
 
                 })
 
                 addEventListener('keyup',(e) => {
-                    game.controlKeyArray.forEach((key, index) => {
-                        if(e.key == key) {
-                            let position = index + 1
-                            let color
-                            switch(position) {
-                                case 1:
-                                case 7:
-                                    color = '#95FF95'
-                                    break
-                                case 2:
-                                case 6:
-                                    color = '#FFFF77'
-                                    break
-                                case 3:
-                                case 5:
-                                    color = '#6B6BFB'
-                                    break
-                                default:
-                                    color = '#F57272'
-                            }
+                    let index
 
-                            game.playerHitBoxArray[index].color = color
-                            game.playerHitBoxArray[index].isActive = false
+                    let color = 'green'
+                    if(game.controlKeyArray.includes(e.key)) {
+                        index = game.controlKeyArray.indexOf(e.key)
+                        let position = index + 1
+                        switch(position) {
+                            case 1:
+                            case 7:
+                                color = '#95FF95'
+                                break
+                            case 2:
+                            case 6:
+                                color = '#FFFF77'
+                                break
+                            case 3:
+                            case 5:
+                                color = '#6B6BFB'
+                                break
+                            default:
+                                color = '#F57272'
                         }
-                    })
+                    }
+
+
+                    if(index > -1) {
+                        game.playerHitBoxArray[index].color = color
+                        game.playerHitBoxArray[index].isActive = false
+                    }
+
+
+
+
                 })
 
                 quitButton.addEventListener('click', (e) => {
-
                     endingBoo.currentTime = 0;
                     endingBoo.play()
                     game.stop()
                     game.isEnd = true
                     gameScreen.style.display = 'none'
                     endScreen.style.display = 'flex'
-
                 })
 
                 game.render()
