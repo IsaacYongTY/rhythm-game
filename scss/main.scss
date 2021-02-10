@@ -2,9 +2,17 @@
 @import './base/_typography';
 @import './base/_base.scss';
 
-@import './intro-screen';
-@import './start-screen';
+@import './_intro-screen';
+@import './_start-screen';
+@import './_game-screen';
+@import './_ending-screen';
 
+canvas {
+  position:absolute;
+  top: 0;
+  left: 0;
+  z-index: 99;
+}
 .container {
   @extend .d-flex;
 
@@ -36,57 +44,61 @@
   }
 }
 
-.end-screen {
-  @extend .d-flex;
-  width: 100%;
-  height: 100vh;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 
-  &__result-grids {
-    display: grid;
-    grid-template: repeat(2, 1fr) / repeat(3, 1fr);
-    width: 80%;
-    height: 40rem;
-    font-size: 2.4rem;
 
-     div {
-      @extend .d-flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    &__cover-art {
-      grid-row: span 2;
-      background-repeat: no-repeat;
-      background-size: contain;
-      background-position: 50% 50% ;
-
-    }
-
-    &__end-score-grid {
-        @extend .d-flex;
-        flex-direction: column;
-
-        &__end-score {
-          font-size: 7.2rem;
-        }
-    }
-
-    &__end-streaks-grid {
-      @extend .d-flex;
-      flex-direction: column;
-
-      &__end-streaks {
-        font-size: 7.2rem;
-      }
-    }
-    &__grade {
-      font-size: 25rem;
-    }
+@keyframes text-blink {
+  0% {
+    opacity: 100;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 100;
   }
 }
+
+.title {
+    font-size: $title-font-size-l;
+    margin-top: 0;
+    margin: 2rem 0 0 0;
+
+}
+
+#quit-button {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 3;
+  background-color: transparent;
+  color: white;
+  font-size: 1.6rem;
+  border: none;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+#canvas-overlay {
+  position: absolute;
+  z-index: 0;
+  top: 5rem;
+  left: 28.5rem;
+  background-color: rgba(255,255,255,0.1);
+  width: 70rem;
+  height: 82rem;
+
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+
+  > div {
+    border: 1px solid lightgrey;
+  }
+}
+
+
+
 
 
 

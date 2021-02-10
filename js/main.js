@@ -1,25 +1,19 @@
 
 import Selector from './Selector.js'
-
-import songs from './songs.js'
 import Game from './Game.js'
 
+import songs from './songs.js'
 import gameAudio from './gameAudio.js'
-
-const canvas = document.querySelector('canvas')
-canvas.width = innerWidth / 2
-canvas.height = innerHeight
-
 
 const introScreen = document.querySelector('#intro-screen')
 const startScreen = document.querySelector('.start-screen')
-const gameScreen = document.querySelector('#game-screen')
+const gameScreen = document.querySelector('.game-screen')
 const endScreen = document.querySelector('.end-screen')
-const playAgainButton = document.querySelector('#play-again-button')
 const quitButton = document.querySelector('#quit-button')
 
-let endScoreHolder = document.querySelector('.end-screen__result-grids__end-score')
-let endStreaksHolder = document.querySelector('.end-screen__result-grids__end-streaks-grid__end-streaks')
+const canvas = document.querySelector('canvas')
+canvas.width = innerWidth
+canvas.height = innerHeight
 
 introScreen.style.display = 'block'
 startScreen.style.display = 'none'
@@ -36,7 +30,6 @@ let songCardsHolder = document.createElement('div')
 
 songCardsHolder.setAttribute('class','start-screen__song-cards')
 songCardsHolder.style.gridTemplateColumns = `repeat(${songs.length}, 1fr)`
-
 
 songs.forEach((song, index) => {
 
@@ -74,8 +67,6 @@ songs.forEach((song, index) => {
     // })
 
     songCardsHolder.appendChild(songCardHolder)
-
-
 
 })
 
@@ -173,7 +164,6 @@ addEventListener('keydown', (e) => {
 
                 startScreen.style.display = 'flex'
                 introScreen.style.display = 'none'
-
             }
 
             if(endScreen.style.display === 'flex') {

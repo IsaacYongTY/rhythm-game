@@ -7,21 +7,10 @@
 
   h2 {
     animation: text-blink 1.5s ease-in-out infinite;
-    font-size: 36px;
+    font-size: 3.6rem;
     -webkit-text-stroke-width: 1px;
 
     -webkit-text-stroke-color: black;
   }
 }
 
-@keyframes text-blink {
-  0% {
-  opacity: 100;
-  }
-  50% {
-  opacity: 0;
-  }
-  100% {
-  opacity: 100;
-  }
-}

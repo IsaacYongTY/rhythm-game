@@ -4,18 +4,14 @@
   justify-content: flex-start;
   align-items: center;
 
-
   width: 100vw;
   height: 100vh;
+
   > p {
     color: $lightgreen;
   }
 
-  &__title {
-    font-size: $title-font-size-l;
-    margin-top: 0;
-    margin: 2rem 0 0 0;
-  }
+
 
   &__song-cards {
     display: grid;

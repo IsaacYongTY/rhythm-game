@@ -5,21 +5,27 @@ import gameAudio from './gameAudio.js';
 let canvas = document.querySelector('canvas')
 let ctx = canvas.getContext('2d')
 
-let scoreHolder = document.querySelector('#score')
-let streaksHolder = document.querySelector('#streaks')
+
+let scoreHolder = document.querySelector('.game-screen__game-grids__score-holder__score')
+let streaksHolder = document.querySelector('.game-screen__game-grids__streaks-holder__streaks')
 
 let endScoreHolder = document.querySelector('.end-screen__result-grids__end-score-grid__end-score')
 let endStreaksHolder = document.querySelector('.end-screen__result-grids__end-streaks-grid__end-streaks')
 let gradeHolder =  document.querySelector('.end-screen__result-grids__grade')
 
-const gameScreen = document.querySelector('#game-screen')
+const gameScreen = document.querySelector('.game-screen')
 const endScreen = document.querySelector('.end-screen')
 
-let endScreenCoverArtHolder = document.querySelector('.end-screen__result-grids__cover-art')
+let endScreenCoverArtHolder = document.querySelector('.end-screen__result-grids__cover-art-grid__cover-art')
+let endScreenSongTitleHolder = document.querySelector('.end-screen__result-grids__cover-art-grid__song-title')
+let endScreenArtistHolder = document.querySelector('.end-screen__result-grids__cover-art-grid__artist')
+
 
 const keyWidth = 100
 const keyHeight = 30
-
+const numOfKeys = 7
+const startingX = (1100 - numOfKeys * keyWidth) / 2
+const startingY = 690
 
 
 export default class Game {
@@ -29,26 +35,14 @@ export default class Game {
         this.longestStreaks = 0
         this.song = song
         this.controlKeyArray = ['s','d','f', ' ' , 'j', 'k','l']
-        this.playerHitBoxArray = this.createKeys(7,100,670,keyWidth,keyHeight)
+        this.playerHitBoxArray = this.createKeys(numOfKeys,startingX ,startingY,keyWidth,keyHeight)
         this.selectedSong = new Audio(this.song.audio)
         this.subBeat = song.subBeat
         this.blockInterval = (1 / ( this.song.bpm / 60 ) * 1000 / this.subBeat ).toFixed(2)
         this.speed = 5
         this.isEnd = false
 
-        this.musicBlockArray = song.songMap.map((line,i) => {
-            let resultArray = []
-
-            if(line.indexOf(0) === -1) {
-                line.forEach((position,index) => {
-                        resultArray.push(new MusicBlock(position * keyWidth, 0, keyWidth, keyHeight,this.speed))
-                    }
-                )
-            }   else {
-                resultArray.push()
-            }
-            return resultArray
-        })
+        this.musicBlockArray = this.createMusicBlockArray(song)
 
         this.selectedSong.play()
 
@@ -58,6 +52,8 @@ export default class Game {
             endingApplause.play()
             this.stop()
         })
+
+
     }
 
     render() {
@@ -87,31 +83,38 @@ export default class Game {
 
     stop() {
         ctx.clearRect(0,0, innerWidth, innerHeight)
-        this.selectedSong.pause()
-        this.isEnd = true
 
-
-        endScreenCoverArtHolder.style.backgroundImage = `url('${this.song.coverArt}')`
-
-
-        endScoreHolder.textContent = `${this.score}`
-        endStreaksHolder.textContent = `${this.longestStreaks}`
         gameScreen.style.display = 'none'
         endScreen.style.display = 'flex'
 
         let grade = ''
 
+        this.selectedSong.pause()
+        this.isEnd = true
+
+        scoreHolder.textContent = `${this.score}`
+        streaksHolder.textContent = `${this.longestStreaks}`
+
+        endScreenArtistHolder.innerHTML = ''
+        endScreenSongTitleHolder.innerHTML = ''
+        gradeHolder.innerHTML = ''
+        endScreenCoverArtHolder.style.backgroundImage = `url('${this.song.coverArt}')`
+
+        endScreenSongTitleHolder.textContent = `${this.song.title}`
+        endScreenArtistHolder.textContent = `${this.song.artist}`
+
+        endScoreHolder.textContent = `${this.score}`
+        endStreaksHolder.textContent = `${this.longestStreaks}`
+
         if(this.score > 1500) {
             grade = 'A'
         } else if (this.score > 1000){
-                grade='B'
+            grade = 'B'
         } else if (this.score > 500) {
-                grade='C'
+            grade = 'C'
         } else {
-                grade = 'F'
+            grade = 'F'
         }
-
-        gradeHolder.innerHTML = ''
 
         let gradeText = document.createTextNode(grade)
         gradeHolder.appendChild(gradeText)
@@ -121,6 +124,22 @@ export default class Game {
     createKeys(numOfKeys, startingX, startingY, width,height) {
         return Array(numOfKeys).fill(0).map((element, index) =>
             new PlayerHitBox(startingX + width * index, startingY, width, height,index))
+    }
+
+    createMusicBlockArray(song) {
+        return song.songMap.map((line,i) => {
+            let resultArray = []
+
+            if(line.indexOf(0) === -1) {
+                line.forEach((position,index) => {
+                        resultArray.push(new MusicBlock(startingX + (position - 1)* keyWidth, 0, keyWidth, keyHeight,this.speed))
+                    }
+                )
+            }   else {
+                resultArray.push()
+            }
+            return resultArray
+        })
     }
 
     generateMusicBlock(interval) {
@@ -161,7 +180,7 @@ export default class Game {
                         }
 
                         this.streaks = 0
-                        streaksHolder.textContent = `Streaks: ${this.streaks}`
+                        streaksHolder.textContent = String(0)
                     }
                 })
             })
@@ -182,8 +201,8 @@ export default class Game {
                         this.score += 20
                         this.streaks += 1
 
-                        scoreHolder.textContent = `Score: ${this.score}`
-                        streaksHolder.textContent = `Streaks: ${this.streaks}`
+                        scoreHolder.textContent = `${this.score}`
+                        streaksHolder.textContent = `${this.streaks}`
 
                         element.isHit = true
                     }

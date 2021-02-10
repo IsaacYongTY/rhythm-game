@@ -26,26 +26,64 @@
 
     <div class="start-screen">
 
-        <h1 class="start-screen__title">Fever Time</h1>
+        <h1 class="title">Fever Time</h1>
         <p>start of a beautiful thing</p>
 
     </div>
 
 
-    <div id="game-screen">
-        <div id="score">Score: 0</div>
-        <div id="streaks">Streaks: 0</div>
+    <div class="game-screen">
+<!--        <h1 class="title">Fever Time</h1>-->
+
+        <div class="game-screen__game-grids">
+            <div class="game-screen__game-grids__canvas-holder">
+                <canvas></canvas>
+            </div>
+
+
+            <div class="game-screen__game-grids__score-holder">
+                <div>Score:</div>
+                <div class="game-screen__game-grids__score-holder__score">0</div>
+            </div>
+
+            <div class="game-screen__game-grids__streaks-holder">
+                <div>Streaks</div>
+                <div class="game-screen__game-grids__streaks-holder__streaks">0</div>
+            </div>
+
+            <div class="game-screen__game-grids__now-playing">
+                <div class="game-screen__game-grids__now-playing">Now Playing</div>
+                <div class="game-screen__game-grids__cover-art"></div>
+                <div class="game-screen__game-grids__song-title"></div>
+                <div class="game-screen__game-grids__artist"></div>
+            </div>
+
+            <div id="canvas-overlay">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+
 
         <div>
             <button id="quit-button">Quit Game</button>
         </div>
-        <canvas></canvas>
     </div>
 
 
     <div class="end-screen">
         <div class="end-screen__result-grids">
-            <div class="end-screen__result-grids__cover-art"></div>
+            <div class="end-screen__result-grids__cover-art-grid">
+                <div class="end-screen__result-grids__cover-art-grid__cover-art"></div>
+                <div class="end-screen__result-grids__cover-art-grid__song-title"></div>
+                <div class="end-screen__result-grids__cover-art-grid__artist"></div>
+
+            </div>
             <div class="end-screen__result-grids__end-score-grid">
                 <div>Score</div>
                 <div class="end-screen__result-grids__end-score-grid__end-score"></div>
