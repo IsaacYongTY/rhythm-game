@@ -77,8 +77,6 @@ addEventListener('keydown', (e) => {
 
     e.preventDefault()
 
-    console.log(e.key)
-
     switch(e.key) {
         case 'ArrowLeft':
         case 'ArrowRight':
@@ -99,6 +97,14 @@ addEventListener('keydown', (e) => {
 
                 startScreen.style.display = 'none'
                 gameScreen.style.display = 'block'
+
+                let gameScreenCoverArtHolder = document.querySelector('.game-screen__game-grids__now-playing__cover-art')
+                let gameScreenArtistHolder = document.querySelector('.game-screen__game-grids__now-playing__artist')
+                let gameScreenSongTitleHolder = document.querySelector('.game-screen__game-grids__now-playing__song-title')
+
+                gameScreenCoverArtHolder.style.backgroundImage = `url('${game.song.coverArt}')`
+                gameScreenArtistHolder.textContent = game.song.artist
+                gameScreenSongTitleHolder.textContent = game.song.title
 
                 addEventListener('keydown',(e) => {
                     e.preventDefault()

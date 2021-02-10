@@ -25,7 +25,7 @@ const keyWidth = 100
 const keyHeight = 30
 const numOfKeys = 7
 const startingX = (1100 - numOfKeys * keyWidth) / 2
-const startingY = 690
+const startingY = 670
 
 
 export default class Game {
@@ -88,7 +88,7 @@ export default class Game {
         endScreen.style.display = 'flex'
 
         let grade = ''
-
+        let gradeColor = 'white'
         this.selectedSong.pause()
         this.isEnd = true
 
@@ -106,18 +106,21 @@ export default class Game {
         endScoreHolder.textContent = `${this.score}`
         endStreaksHolder.textContent = `${this.longestStreaks}`
 
-        if(this.score > 1500) {
+        if(this.score > 3000) {
             grade = 'A'
-        } else if (this.score > 1000){
+            gradeColor = '#FFD700'
+        } else if (this.score > 2000){
             grade = 'B'
-        } else if (this.score > 500) {
+        } else if (this.score > 100) {
             grade = 'C'
         } else {
             grade = 'F'
+            gradeColor = '#8b0000'
         }
 
         let gradeText = document.createTextNode(grade)
         gradeHolder.appendChild(gradeText)
+        gradeHolder.style.color = gradeColor
 
     }
 
@@ -147,19 +150,39 @@ export default class Game {
         if(!this.isEnd) {
 
 
-            for (let i = 0; i < this.musicBlockArray.length; i++) {
+            this.musicBlockArray.forEach((musicBlock,index) => {
                 setTimeout(() => {
-                    if (this.musicBlockArray[i].length > 0 && !this.isEnd) {
-                        for (let j = 0; j < this.musicBlockArray[i].length; j++) {
-                            if (!this.musicBlockArray[i][j].isHit && !this.musicBlockArray[i][j].isMissed) {
-                                this.musicBlockArray[i][j].draw()
-                                this.musicBlockArray[i][j].y += this.musicBlockArray[i][j].dy
+                    if (musicBlock.length > 0 && !this.isEnd) {
+                        musicBlock.forEach((element)=> {
+                            if (!element.isHit && !element.isMissed) {
+                                element.draw()
+                                element.y += element.dy
                             }
-                        }
+                        })
+
+
                     }
-                }, i * interval)
-            }
+                }, index * interval)
+            })
+
+
         }
+        // if(!this.isEnd) {
+        //
+        //
+        //     for (let i = 0; i < this.musicBlockArray.length; i++) {
+        //         setTimeout(() => {
+        //             if (this.musicBlockArray[i].length > 0 && !this.isEnd) {
+        //                 for (let j = 0; j < this.musicBlockArray[i].length; j++) {
+        //                     if (!this.musicBlockArray[i][j].isHit && !this.musicBlockArray[i][j].isMissed) {
+        //                         this.musicBlockArray[i][j].draw()
+        //                         this.musicBlockArray[i][j].y += this.musicBlockArray[i][j].dy
+        //                     }
+        //                 }
+        //             }
+        //         }, i * interval)
+        //     }
+        // }
     }
 
     isMissed(musicBlockArray, playerHitBoxArray) {
