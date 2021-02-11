@@ -25,7 +25,7 @@ const keyWidth = 100
 const keyHeight = 30
 const numOfKeys = 7
 const startingX = (1100 - numOfKeys * keyWidth) / 2
-const startingY = 670
+const startingY = 650
 
 
 export default class Game {

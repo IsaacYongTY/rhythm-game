@@ -1,5 +1,7 @@
 .start-screen {
-  @extend .d-flex;
+  //@extend .d-flex;
+  //set to flex in JS after intro screen
+  display: none;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;

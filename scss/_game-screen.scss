@@ -1,4 +1,6 @@
 .game-screen {
+  //set to block in JS after intro screen
+  display: none;
   height: 100vh;
   width: 90%;
 
@@ -23,7 +25,6 @@
         font-size: 2.4rem;
         align-items: center;
         text-align: center;
-
       }
 
       &__score-holder {

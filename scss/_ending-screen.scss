@@ -1,5 +1,6 @@
 .end-screen {
-  @extend .d-flex;
+  //@extend .d-flex;
+  display: none;
   width: 100%;
   height: 100vh;
   flex-direction: column;
