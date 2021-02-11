@@ -1,7 +1,4 @@
 # Fever Time
-
-
-# Fever Time
 Show off your grooves to the world by hitting the notes on beat 😎  
 Named after a retro themed soundtrack in the video game Yakuza 0, the players will be awarded based the number of notes that are tapped on beat, and streaks of correct notes. This is a 7 keys games, and th
 
